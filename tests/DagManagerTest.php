@@ -94,6 +94,7 @@ class DagManagerTest extends TestCase
          *  - the expected exception will be thrown
          */
         $this->expectException(CircularReferenceException::class);
+        $this->expectExceptionMessage('This operation caused a circular reference.');
 
         /**
          * Act/When:
@@ -494,6 +495,8 @@ class DagManagerTest extends TestCase
          *  - the expected exception will be thrown
          */
         $this->expectException(TooManyHopsException::class);
+
+        $this->expectExceptionMessageMatches('/This operation exceeded the maximum allowable hops \(\d\)\./');
 
         /**
          * Act/When:

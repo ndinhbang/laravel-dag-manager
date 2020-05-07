@@ -36,7 +36,7 @@ $deleted = dag()->deleteEdge($startVertex, $endVertex, $source);
 
 ## Installation
 
-This package requires PHP 7.2 or higher as well as Laravel 5.6 or higher.
+This package requires PHP 7.2 or higher as well as Laravel 6.0 or higher.
 
 You can install the package via composer:
 
@@ -116,10 +116,22 @@ An ID and source must be provided.
 
 Likewise, to apply a scope that only includes models that are ancestors of the specified model ID:
 ```php
-$descendants = MyModel::dagAncestorsOf($myModel->id, 'my-source')->get();
+$ancestors = MyModel::dagAncestorsOf($myModel->id, 'my-source')->get();
 ```
 
 Again, an ID and source must be provided.
+
+Both of the aforementioned methods also allow the caller to constrain the results based on the number of hops.  So, if you want to get the immediate children of the specified model ID, then you could do the following:
+```php
+$descendants = MyModel::dagDescendantsOf($myModel->id, 'my-source', 0)->get();
+```
+
+And, of course, in order to get the parents and grandparents of the specified model ID, you could do the following:
+```php
+$ancestors = MyModel::dagAncestorsOf($myModel->id, 'my-source', 1)->get();
+```
+
+Not providing the `$maxHops` parameter means that all descendants or ancestors will be returned.
 
 ## Testing
 
